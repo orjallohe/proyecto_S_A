@@ -27,6 +27,9 @@ function AppMain() {
                     <Route path="/" exact>
                         <ListaProducto />
                     </Route>
+                    <Route path="/producto" exact>
+                        <ListaProducto />
+                    </Route>
                     <Route path="/CrearProducto">
                         <CrearProducto />
                     </Route>
