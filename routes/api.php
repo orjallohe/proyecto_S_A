@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('productos', 'Api\ProductoController')->except(['create','edit']);
+Route::resource('CategoriaProducto', 'Api\CategoriaProductoController')->except(['create','edit']);

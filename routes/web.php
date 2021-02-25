@@ -14,6 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-   $producto = App\CategoriaProducto::findOrFail(1);
-   return $producto->Producto;
+    return view('welcome');
 });

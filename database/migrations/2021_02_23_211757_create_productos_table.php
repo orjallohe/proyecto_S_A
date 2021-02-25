@@ -18,9 +18,9 @@ class CreateProductosTable extends Migration
             $table->unsignedBigInteger('categoria_productos_id')->nullable();
             $table->integer('codigo');
             $table->string('nombre');
-            $table->string('descripción');
+            $table->string('descripcion');
             $table->string('marca');
-            $table->string('categoría');
+            $table->string('categoria');
             $table->float('precio');
             $table->timestamps();
 

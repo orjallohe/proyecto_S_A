@@ -8,7 +8,7 @@ class CategoriaProducto extends Model
 {
     //
     protected $fillable = [
-         'codigo', 'nombre','descripción','activo',
+         'codigo', 'nombre','descripcion','activo',
     ];
 
     public function Producto()

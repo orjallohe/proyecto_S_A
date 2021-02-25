@@ -4,8 +4,10 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Producto;
+use App\CategoriaProducto;
 use Illuminate\Http\Request;
 use App\Http\Resources\Producto as ProductoResources;
+use App\Http\Resources\ProductoCollection;
 use App\Http\Requests\Producto as ProductoRequests;
 
 class ProductoController extends Controller
@@ -23,6 +25,8 @@ class ProductoController extends Controller
     public function index()
     {
         //
+       return response()->json(new ProductoCollection($this->producto->get()));
+
 
     }
 
@@ -35,7 +39,7 @@ class ProductoController extends Controller
     public function store(ProductoRequests $request)
     {
         $producto = $this->producto->create($request->all());
-        return response()->json(new ProductoResources($producto),201);
+        return response()->json(new ProductoCollection($this->producto->get()));
     }
 
     /**

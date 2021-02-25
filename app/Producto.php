@@ -8,7 +8,7 @@ class Producto extends Model
 {
 
     protected $fillable = [
-        'categoria_productos_id', 'codigo', 'nombre','descripción','marca','categoría',
+        'categoria_productos_id', 'codigo', 'nombre','descripcion','marca','categoria','precio',
     ];
 
     protected $hidden = [
