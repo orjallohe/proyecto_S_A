@@ -124,7 +124,7 @@ export default function ListaCategoriaProducto() {
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editarCategoriaProductoLabel">Modal title</h5>
+                        <h5 class="modal-title" id="editarCategoriaProductoLabel">Editar Categoria</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -135,7 +135,7 @@ export default function ListaCategoriaProducto() {
                         <div class="row">
                             <div class="col">
                                 <label>Codigo</label>
-                                <input type="number" class="form-control" name="codigo" placeholder="Codigo"
+                                <input type="text" class="form-control" name="codigo" placeholder="Codigo"
                                 onChange={handelChangeInput}
                                 value={dataForm.codigo}
                                 ref={register({

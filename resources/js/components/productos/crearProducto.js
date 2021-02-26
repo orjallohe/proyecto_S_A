@@ -55,7 +55,7 @@ export default function CrearProducto() {
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Crear Producto</h5>
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -185,7 +185,7 @@ export default function CrearProducto() {
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary" >Guardar</button>
                         {error && <div class="alert alert-danger" role="alert"> {error}</div>}
                     </form>
 

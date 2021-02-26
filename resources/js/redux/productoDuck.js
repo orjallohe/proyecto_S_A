@@ -19,6 +19,7 @@ const GET_ID_ELIMINAR = 'GET_ID_ELIMINAR'
 const GET_ID_CATEGORIA = 'GET_ID_CATEGORIA'
 const ELIMINAR_PRODUCTO_SUCCESS = 'ELIMINAR_PRODUCTO_SUCCESS'
 const ELIMINAR_CATEGORIA_PRODUCTO_SUCCESS = 'ELIMINAR_CATEGORIA_PRODUCTO_SUCCESS'
+const FILTRAR_PRODUCTO_SUCCESS = 'FILTRAR_PRODUCTO_SUCCESS'
 
 
 // reducer
@@ -53,7 +54,8 @@ export default function productoReducer(state = dataInicial, action){
 
         case ELIMINAR_CATEGORIA_PRODUCTO_SUCCESS:
             return {...state, categoriaProducto: action.payload}
-
+        case FILTRAR_PRODUCTO_SUCCESS:
+            return {...state, productos: action.payload}
         default:
             return state
     }
@@ -171,6 +173,19 @@ export const eliminarCategoriaProductoAction = (id) => async (dispatch, getState
         dispatch({
             type: ELIMINAR_CATEGORIA_PRODUCTO_SUCCESS,
             payload: res.data
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const filtrarProductoAction = (data) => async (dispatch, getState) => {
+    try {
+        const productos = getState().productos.productos
+        const productosFiltrados = productos.filter(producto => producto.nombre.startsWith(data))
+        dispatch({
+            type: FILTRAR_PRODUCTO_SUCCESS,
+            payload: productosFiltrados
         })
     } catch (error) {
         console.log(error)

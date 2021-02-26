@@ -9,7 +9,7 @@ import {
     NavLink
   } from "react-router-dom";
 // importamos la acción
-import {obtenerProductoAction, updateProductoAction, getIdEliminar} from '../../redux/productoDuck'
+import {obtenerProductoAction, updateProductoAction, getIdEliminar,filtrarProductoAction} from '../../redux/productoDuck'
 import CrearProducto from './crearProducto';
 import EliminarProducto from './eliminarProducto'
 
@@ -34,6 +34,7 @@ export default function ListaProducto() {
     const dispatch = useDispatch()
     const [categoria, useCategoria] = useState([])
     const unmounted = useRef(false);
+    const [busquedaProducto, setBusquedaProducto] = React.useState('')
     const [dataForm,setDataForm] = useState({
         id: '',
         codigo: '',
@@ -62,6 +63,15 @@ export default function ListaProducto() {
     const handleMostrarDatosInput = (registro) =>{
         setDataForm(registro)
     }
+    const handleChangeBusqueda = (e) =>{
+        setBusquedaProducto(e.target.value)
+        if(e.target.value.length > 0){
+            dispatch(filtrarProductoAction(e.target.value))
+
+        }else{
+            dispatch(obtenerProductoAction())
+        }
+    }
 
     const onSubmit = (data, e) => {
         console.log(data)
@@ -84,7 +94,7 @@ export default function ListaProducto() {
             <nav class="navbar navbar-light bg-light justify-content-between p-4">
                 <a class="navbar-brand"></a>
                 <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" onChange={handleChangeBusqueda }/>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </nav>
@@ -149,7 +159,7 @@ export default function ListaProducto() {
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editarProductoLabel">Modal title</h5>
+                        <h5 class="modal-title" id="editarProductoLabel">Editar Categoria</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>

@@ -35,27 +35,27 @@ export default function CrearCategoriaProducto() {
     return (
         <CrearCategoriaProductoStyled>
 
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#crearCategoriaProducto">
+            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#crearCategoriaProducto">
             Nueva Categoria
             </button>
 
 
-            <div class="modal fade" id="crearCategoriaProducto" tabIndex="-1" role="dialog" aria-labelledby="crearCategoriaProductoLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Categoria de producto</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div className="modal fade" id="crearCategoriaProducto" tabIndex="-1" role="dialog" aria-labelledby="crearCategoriaProductoLabel" aria-hidden="true">
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">Crear categoría</h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div className="modal-body">
 
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div class="row">
-                            <div class="col">
+                        <div className="row">
+                            <div className="col">
                             <label>Codigo</label>
-                            <input type="text" class="form-control" name="codigo" placeholder="Codigo"
+                            <input type="text" className="form-control" name="codigo" placeholder="Codigo"
                             ref={register({
                                 required: {
                                     value: true,
@@ -73,9 +73,9 @@ export default function CrearCategoriaProducto() {
                                 {errors?.codigo?.message}
                             </span>
                             </div>
-                            <div class="col">
+                            <div className="col">
                             <label>Nombre</label>
-                            <input type="text" class="form-control" name="nombre" placeholder="Nombre"
+                            <input type="text" className="form-control" name="nombre" placeholder="Nombre"
                             ref={register({
                                 required: {
                                     value: true,
@@ -93,8 +93,8 @@ export default function CrearCategoriaProducto() {
                             </span>
                             </div>
                         </div>
-                        <div class="row mt-2">
-                            <div class="col">
+                        <div className="row mt-2">
+                            <div className="col">
                             <label>Descripción</label>
                             <textarea name="textarea" rows="4" cols="55" name="descripcion"
                             ref={register({
@@ -111,10 +111,10 @@ export default function CrearCategoriaProducto() {
 
                         </div>
 
-                        <div class="row mt-2">
-                            <div class="form-group col-md-12">
+                        <div className="row mt-2">
+                            <div className="form-group col-md-12">
                                 <label htmlFor="inputState">Activo</label>
-                                <select id="inputState" class="form-control" name="activo"
+                                <select id="inputState" className="form-control" name="activo"
                                 ref={register({
                                     required: {
                                         value: true,
@@ -130,14 +130,14 @@ export default function CrearCategoriaProducto() {
 
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                        {error && <div class="alert alert-danger" role="alert"> {error}</div>}
+                        <button type="submit" className="btn btn-primary">Save changes</button>
+                        {error && <div className="alert alert-danger" role="alert"> {error}</div>}
 
                     </form>
 
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
                 </div>
             </div>
