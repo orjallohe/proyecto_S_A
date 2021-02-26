@@ -13,7 +13,7 @@ import ListaCategoriaProducto from './productos/listaCategoriaProducto';
 import {Provider} from 'react-redux'
 import generateStore from '../redux/store'
 import CrearProducto from './productos/crearProducto';
-import EditarProducto from './productos/editarProducto';
+
 
 
 
@@ -36,9 +36,7 @@ function AppMain() {
                     <Route path="/categoriaProducto">
                         <ListaCategoriaProducto />
                     </Route>
-                    <Route path="/editarProducto/:codigo">
-                        <EditarProducto />
-                    </Route>
+
                 </Switch>
             </Router>
         </Provider>
