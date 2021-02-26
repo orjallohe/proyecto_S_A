@@ -1,17 +1,32 @@
 import React,{useEffect, useState} from 'react'
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {insertarCategoriaProductoAction} from '../../redux/productoDuck'
 const CrearCategoriaProductoStyled = styled.div`
 
 `
 export default function CrearCategoriaProducto() {
     const dispatch = useDispatch()
+    const [error, setError] = useState("")
+    const categoriaProducto = useSelector(store => store.productos.categoriaProducto)
 
     const {register, errors, handleSubmit} = useForm();
+
     const onSubmit = (data, e) => {
-        console.log(data)
+        let nombreExiste = categoriaProducto.some(c => c.nombre == data.nombre)
+        let codigoExiste = categoriaProducto.some(c => c.codigo == data.codigo)
+        setError("")
+        if(nombreExiste){
+            setError("El nombre ya existe")
+            return;
+        }
+        setError("")
+        if(codigoExiste){
+            setError("El codigo ya existe")
+            return;
+        }
+
         dispatch(insertarCategoriaProductoAction(data));
         // limpiar campos
         e.target.reset();
@@ -40,12 +55,18 @@ export default function CrearCategoriaProducto() {
                         <div class="row">
                             <div class="col">
                             <label>Codigo</label>
-                            <input type="number" class="form-control" name="codigo" placeholder="Codigo"
+                            <input type="text" class="form-control" name="codigo" placeholder="Codigo"
                             ref={register({
                                 required: {
                                     value: true,
-                                    message: 'Codigo es requerido'
+                                    message: 'El codigo es requerido'
+                                },
+                                pattern:{
+                                    value: /^[a-zA-Z0-9\_\-]{4,16}$/,
+                                    message: 'No se aceptan esos caracteres'
                                 }
+
+
                              })}
                             />
                             <span className="text-danger text-small d-block mb-2">
@@ -58,10 +79,18 @@ export default function CrearCategoriaProducto() {
                             ref={register({
                                 required: {
                                     value: true,
-                                    message: 'nombre es requerido'
+                                    message: 'El nombre es requerido'
+                                },
+                                minLength: {
+                                    value: 2,
+                                    message: 'Mínimo 2 carácteres'
                                 }
+
                             })}
                             />
+                            <span className="text-danger text-small d-block mb-2">
+                                {errors?.nombre?.message}
+                            </span>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -71,10 +100,13 @@ export default function CrearCategoriaProducto() {
                             ref={register({
                                 required: {
                                     value: true,
-                                    message: 'textarea es requerido'
+                                    message: 'la descripción es requerida'
                                 }
                              })}
                             ></textarea>
+                            <span className="text-danger text-small d-block mb-2">
+                                {errors?.descripcion?.message}
+                            </span>
                             </div>
 
                         </div>
@@ -99,6 +131,7 @@ export default function CrearCategoriaProducto() {
                         </div>
 
                         <button type="submit" class="btn btn-primary">Save changes</button>
+                        {error && <div class="alert alert-danger" role="alert"> {error}</div>}
 
                     </form>
 

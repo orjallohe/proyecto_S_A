@@ -9,12 +9,30 @@ const CrearProductoStyled = styled.div`
 
 `
 export default function CrearProducto() {
+
+
     const dispatch = useDispatch()
     const [categoria, useCategoria] = useState([])
+    const [error, setError] = useState("")
 
     const {register, errors, handleSubmit} = useForm();
+    const productos = useSelector(store => store.productos.productos)
+
     const onSubmit = (data, e) => {
-        console.log(data)
+        let nombreExiste = productos.some(p => p.nombre == data.nombre)
+        let codigoExiste = productos.some(p => p.codigo == data.codigo)
+        setError("")
+        if(nombreExiste){
+            setError("El nombre ya existe")
+            return;
+        }
+        setError("")
+        if(codigoExiste){
+            setError("El codigo ya existe")
+            return;
+        }
+
+
         dispatch(insertarProductoAction(data));
         // limpiar campos
         e.target.reset();
@@ -38,6 +56,7 @@ export default function CrearProducto() {
                 <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -48,12 +67,26 @@ export default function CrearProducto() {
                         <div class="row">
                             <div class="col">
                             <label>Codigo</label>
-                            <input type="number" class="form-control" name="codigo" placeholder="Codigo"
+                            <input type="text" class="form-control" name="codigo" placeholder="Codigo"
                             ref={register({
                                 required: {
                                     value: true,
-                                    message: 'Codigo es requerido'
+                                    message: 'El codigo es requerido'
+                                },
+                                maxLength: {
+                                    value: 10,
+                                    message: 'No más de 10 carácteres!'
+                                    },
+                                minLength: {
+                                    value: 4,
+                                    message: 'Mínimo 4 carácteres'
+                                },
+                                pattern:{
+                                    value: /^[a-zA-Z0-9\_\-]{4,16}$/,
+                                    message: 'No se aceptan esos caracteres'
                                 }
+
+
                              })}
                             />
                             <span className="text-danger text-small d-block mb-2">
@@ -66,10 +99,18 @@ export default function CrearProducto() {
                             ref={register({
                                 required: {
                                     value: true,
-                                    message: 'nombre es requerido'
+                                    message: 'El nombre es requerido'
+                                },
+                                minLength: {
+                                    value: 4,
+                                    message: 'Mínimo 4 carácteres'
                                 }
+
                             })}
                             />
+                            <span className="text-danger text-small d-block mb-2">
+                                {errors?.nombre?.message}
+                            </span>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -79,10 +120,13 @@ export default function CrearProducto() {
                             ref={register({
                                 required: {
                                     value: true,
-                                    message: 'textarea es requerido'
+                                    message: 'La descripcion es requerida'
                                 }
                              })}
                             ></textarea>
+                            <span className="text-danger text-small d-block mb-2">
+                                {errors?.descripcion?.message}
+                            </span>
                             </div>
 
                         </div>
@@ -112,26 +156,37 @@ export default function CrearProducto() {
                             ref={register({
                                 required: {
                                     value: true,
-                                    message: 'Marca es requerido'
+                                    message: 'La marca es requerida'
                                 }
                              })}
                             />
+                            <span className="text-danger text-small d-block mb-2">
+                                {errors?.marca?.message}
+                            </span>
                             </div>
+
                             <div class="col">
                             <label>Precio</label>
                             <input type="number" class="form-control" placeholder="precio" name="precio"
                             ref={register({
                                 required: {
                                     value: true,
-                                    message: 'precio es requerido'
+                                    message: 'El precio es requerido'
+                                },
+                                min: {
+                                    value: 0,
+                                    message: 'no puede ser negativo'
                                 }
                              })}
                             />
+                            <span className="text-danger text-small d-block mb-2">
+                                {errors?.precio?.message}
+                            </span>
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Save changes</button>
-
+                        {error && <div class="alert alert-danger" role="alert"> {error}</div>}
                     </form>
 
                 </div>

@@ -161,6 +161,9 @@ export default function ListaCategoriaProducto() {
                                     }
                                 })}
                                 />
+                                <span className="text-danger text-small d-block mb-2">
+                                    {errors?.nombre?.message}
+                                </span>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -176,6 +179,9 @@ export default function ListaCategoriaProducto() {
                                 }
                              })}
                             ></textarea>
+                            <span className="text-danger text-small d-block mb-2">
+                                    {errors?.descripcion?.message}
+                            </span>
                             </div>
 
                         </div>

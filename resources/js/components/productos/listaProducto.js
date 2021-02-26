@@ -160,15 +160,29 @@ export default function ListaProducto() {
                         <div class="row">
                             <div class="col">
                                 <label>Codigo</label>
-                                <input type="number" class="form-control" name="codigo" placeholder="Codigo"
+                                <input type="text" class="form-control" name="codigo" placeholder="Codigo"
                                 onChange={handelChangeInput}
                                 value={dataForm.codigo}
                                 ref={register({
                                     required: {
                                         value: true,
-                                        message: 'Codigo es requerido'
+                                        message: 'El codigo es requerido'
+                                    },
+                                    maxLength: {
+                                        value: 10,
+                                        message: 'No más de 10 carácteres!'
+                                        },
+                                    minLength: {
+                                        value: 4,
+                                        message: 'Mínimo 4 carácteres'
+                                    },
+                                    pattern:{
+                                        value: /^[a-zA-Z0-9\_\-]{4,16}$/,
+                                        message: 'No se aceptan esos caracteres'
                                     }
-                                })}
+
+
+                                 })}
                                 />
                                 <span className="text-danger text-small d-block mb-2">
                                     {errors?.codigo?.message}
@@ -182,10 +196,18 @@ export default function ListaProducto() {
                                 ref={register({
                                     required: {
                                         value: true,
-                                        message: 'nombre es requerido'
+                                        message: 'El nombre es requerido'
+                                    },
+                                    minLength: {
+                                        value: 4,
+                                        message: 'Mínimo 4 carácteres'
                                     }
+
                                 })}
                                 />
+                                <span className="text-danger text-small d-block mb-2">
+                                    {errors?.nombre?.message}
+                                </span>
                             </div>
                         </div>
                         <div class="row mt-2">

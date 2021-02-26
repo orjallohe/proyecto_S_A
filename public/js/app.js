@@ -76121,6 +76121,18 @@ var _templateObject;
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 
@@ -76130,9 +76142,18 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 var CrearCategoriaProductoStyled = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n\n"])));
 function CrearCategoriaProducto() {
-  var _errors$codigo, _React$createElement;
+  var _errors$codigo, _errors$nombre, _React$createElement, _errors$descripcion;
 
   var dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useDispatch"])();
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      error = _useState2[0],
+      setError = _useState2[1];
+
+  var categoriaProducto = Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["useSelector"])(function (store) {
+    return store.productos.categoriaProducto;
+  });
 
   var _useForm = Object(react_hook_form__WEBPACK_IMPORTED_MODULE_2__["useForm"])(),
       register = _useForm.register,
@@ -76140,7 +76161,26 @@ function CrearCategoriaProducto() {
       handleSubmit = _useForm.handleSubmit;
 
   var onSubmit = function onSubmit(data, e) {
-    console.log(data);
+    var nombreExiste = categoriaProducto.some(function (c) {
+      return c.nombre == data.nombre;
+    });
+    var codigoExiste = categoriaProducto.some(function (c) {
+      return c.codigo == data.codigo;
+    });
+    setError("");
+
+    if (nombreExiste) {
+      setError("El nombre ya existe");
+      return;
+    }
+
+    setError("");
+
+    if (codigoExiste) {
+      setError("El codigo ya existe");
+      return;
+    }
+
     dispatch(Object(_redux_productoDuck__WEBPACK_IMPORTED_MODULE_4__["insertarCategoriaProductoAction"])(data)); // limpiar campos
 
     e.target.reset();
@@ -76184,14 +76224,18 @@ function CrearCategoriaProducto() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "col"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Codigo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     "class": "form-control",
     name: "codigo",
     placeholder: "Codigo",
     ref: register({
       required: {
         value: true,
-        message: 'Codigo es requerido'
+        message: 'El codigo es requerido'
+      },
+      pattern: {
+        value: /^[a-zA-Z0-9\_\-]{4,16}$/,
+        message: 'No se aceptan esos caracteres'
       }
     })
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -76206,10 +76250,16 @@ function CrearCategoriaProducto() {
     ref: register({
       required: {
         value: true,
-        message: 'nombre es requerido'
+        message: 'El nombre es requerido'
+      },
+      minLength: {
+        value: 2,
+        message: 'Mínimo 2 carácteres'
       }
     })
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger text-small d-block mb-2"
+  }, errors === null || errors === void 0 ? void 0 : (_errors$nombre = errors.nombre) === null || _errors$nombre === void 0 ? void 0 : _errors$nombre.message))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "row mt-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "col"
@@ -76220,9 +76270,11 @@ function CrearCategoriaProducto() {
   }, _defineProperty(_React$createElement, "name", "descripcion"), _defineProperty(_React$createElement, "ref", register({
     required: {
       value: true,
-      message: 'textarea es requerido'
+      message: 'la descripción es requerida'
     }
-  })), _React$createElement)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })), _React$createElement)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger text-small d-block mb-2"
+  }, errors === null || errors === void 0 ? void 0 : (_errors$descripcion = errors.descripcion) === null || _errors$descripcion === void 0 ? void 0 : _errors$descripcion.message))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "row mt-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "form-group col-md-12"
@@ -76245,7 +76297,10 @@ function CrearCategoriaProducto() {
   }, "no")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit",
     "class": "btn btn-primary"
-  }, "Save changes"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Save changes"), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "alert alert-danger",
+    role: "alert"
+  }, " ", error))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "modal-footer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
@@ -76302,7 +76357,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 var CrearProductoStyled = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n\n"])));
 function CrearProducto() {
-  var _errors$codigo, _React$createElement;
+  var _errors$codigo, _errors$nombre, _React$createElement, _errors$descripcion, _errors$marca, _errors$precio;
 
   var dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["useDispatch"])();
 
@@ -76311,13 +76366,41 @@ function CrearProducto() {
       categoria = _useState2[0],
       useCategoria = _useState2[1];
 
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(""),
+      _useState4 = _slicedToArray(_useState3, 2),
+      error = _useState4[0],
+      setError = _useState4[1];
+
   var _useForm = Object(react_hook_form__WEBPACK_IMPORTED_MODULE_2__["useForm"])(),
       register = _useForm.register,
       errors = _useForm.errors,
       handleSubmit = _useForm.handleSubmit;
 
+  var productos = Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["useSelector"])(function (store) {
+    return store.productos.productos;
+  });
+
   var onSubmit = function onSubmit(data, e) {
-    console.log(data);
+    var nombreExiste = productos.some(function (p) {
+      return p.nombre == data.nombre;
+    });
+    var codigoExiste = productos.some(function (p) {
+      return p.codigo == data.codigo;
+    });
+    setError("");
+
+    if (nombreExiste) {
+      setError("El nombre ya existe");
+      return;
+    }
+
+    setError("");
+
+    if (codigoExiste) {
+      setError("El codigo ya existe");
+      return;
+    }
+
     dispatch(Object(_redux_productoDuck__WEBPACK_IMPORTED_MODULE_5__["insertarProductoAction"])(data)); // limpiar campos
 
     e.target.reset();
@@ -76366,14 +76449,26 @@ function CrearProducto() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "col"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Codigo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     "class": "form-control",
     name: "codigo",
     placeholder: "Codigo",
     ref: register({
       required: {
         value: true,
-        message: 'Codigo es requerido'
+        message: 'El codigo es requerido'
+      },
+      maxLength: {
+        value: 10,
+        message: 'No más de 10 carácteres!'
+      },
+      minLength: {
+        value: 4,
+        message: 'Mínimo 4 carácteres'
+      },
+      pattern: {
+        value: /^[a-zA-Z0-9\_\-]{4,16}$/,
+        message: 'No se aceptan esos caracteres'
       }
     })
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -76388,10 +76483,16 @@ function CrearProducto() {
     ref: register({
       required: {
         value: true,
-        message: 'nombre es requerido'
+        message: 'El nombre es requerido'
+      },
+      minLength: {
+        value: 4,
+        message: 'Mínimo 4 carácteres'
       }
     })
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger text-small d-block mb-2"
+  }, errors === null || errors === void 0 ? void 0 : (_errors$nombre = errors.nombre) === null || _errors$nombre === void 0 ? void 0 : _errors$nombre.message))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "row mt-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "col"
@@ -76402,9 +76503,11 @@ function CrearProducto() {
   }, _defineProperty(_React$createElement, "name", "descripcion"), _defineProperty(_React$createElement, "ref", register({
     required: {
       value: true,
-      message: 'textarea es requerido'
+      message: 'La descripcion es requerida'
     }
-  })), _React$createElement)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })), _React$createElement)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger text-small d-block mb-2"
+  }, errors === null || errors === void 0 ? void 0 : (_errors$descripcion = errors.descripcion) === null || _errors$descripcion === void 0 ? void 0 : _errors$descripcion.message))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "row mt-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "form-group col-md-12"
@@ -76437,10 +76540,12 @@ function CrearProducto() {
     ref: register({
       required: {
         value: true,
-        message: 'Marca es requerido'
+        message: 'La marca es requerida'
       }
     })
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger text-small d-block mb-2"
+  }, errors === null || errors === void 0 ? void 0 : (_errors$marca = errors.marca) === null || _errors$marca === void 0 ? void 0 : _errors$marca.message)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "col"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Precio"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "number",
@@ -76450,13 +76555,22 @@ function CrearProducto() {
     ref: register({
       required: {
         value: true,
-        message: 'precio es requerido'
+        message: 'El precio es requerido'
+      },
+      min: {
+        value: 0,
+        message: 'no puede ser negativo'
       }
     })
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger text-small d-block mb-2"
+  }, errors === null || errors === void 0 ? void 0 : (_errors$precio = errors.precio) === null || _errors$precio === void 0 ? void 0 : _errors$precio.message))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "submit",
     "class": "btn btn-primary"
-  }, "Save changes"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Save changes"), error && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "alert alert-danger",
+    role: "alert"
+  }, " ", error))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "modal-footer"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
@@ -76668,7 +76782,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 var ListaCategoriaProductoStyled = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    padding:25px;\n    h1{\n        color:#37546b;\n    }\n    .btn-success{\n        border-radius: 25px;\n        padding: .4rem 30px;\n        font-size: 1rem;\n    }\n    .btn-info{\n        color:white;\n    }\n\n\n"])));
 function ListaCategoriaProducto() {
-  var _errors$codigo, _React$createElement;
+  var _errors$codigo, _errors$nombre, _React$createElement, _errors$descripcion;
 
   var dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["useDispatch"])();
 
@@ -76846,7 +76960,9 @@ function ListaCategoriaProducto() {
         message: 'nombre es requerido'
       }
     })
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger text-small d-block mb-2"
+  }, errors === null || errors === void 0 ? void 0 : (_errors$nombre = errors.nombre) === null || _errors$nombre === void 0 ? void 0 : _errors$nombre.message))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "row mt-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "col"
@@ -76859,7 +76975,9 @@ function ListaCategoriaProducto() {
       value: true,
       message: 'textarea es requerido'
     }
-  })), _React$createElement)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  })), _React$createElement)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger text-small d-block mb-2"
+  }, errors === null || errors === void 0 ? void 0 : (_errors$descripcion = errors.descripcion) === null || _errors$descripcion === void 0 ? void 0 : _errors$descripcion.message))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "row mt-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "form-group col-md-12"
@@ -76967,7 +77085,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 var ListaProductoStyled = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    padding:25px;\n    h1{\n        color:#37546b;\n    }\n    .btn-success{\n        border-radius: 25px;\n        padding: .4rem 30px;\n        font-size: 1rem;\n    }\n    .btn-info{\n        color:white;\n    }\n\n"])));
 function ListaProducto() {
-  var _errors$codigo, _React$createElement;
+  var _errors$codigo, _errors$nombre, _React$createElement;
 
   var _useForm = Object(react_hook_form__WEBPACK_IMPORTED_MODULE_3__["useForm"])(),
       register = _useForm.register,
@@ -77133,7 +77251,7 @@ function ListaProducto() {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "col"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Codigo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "number",
+    type: "text",
     "class": "form-control",
     name: "codigo",
     placeholder: "Codigo",
@@ -77142,7 +77260,19 @@ function ListaProducto() {
     ref: register({
       required: {
         value: true,
-        message: 'Codigo es requerido'
+        message: 'El codigo es requerido'
+      },
+      maxLength: {
+        value: 10,
+        message: 'No más de 10 carácteres!'
+      },
+      minLength: {
+        value: 4,
+        message: 'Mínimo 4 carácteres'
+      },
+      pattern: {
+        value: /^[a-zA-Z0-9\_\-]{4,16}$/,
+        message: 'No se aceptan esos caracteres'
       }
     })
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
@@ -77159,10 +77289,16 @@ function ListaProducto() {
     ref: register({
       required: {
         value: true,
-        message: 'nombre es requerido'
+        message: 'El nombre es requerido'
+      },
+      minLength: {
+        value: 4,
+        message: 'Mínimo 4 carácteres'
       }
     })
-  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger text-small d-block mb-2"
+  }, errors === null || errors === void 0 ? void 0 : (_errors$nombre = errors.nombre) === null || _errors$nombre === void 0 ? void 0 : _errors$nombre.message))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "row mt-2"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     "class": "col"
