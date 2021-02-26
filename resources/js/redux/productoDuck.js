@@ -4,7 +4,8 @@ import url from '../url';
 const dataInicial = {
     productos: [],
     categoriaProducto:[],
-    idEliminar: null
+    idEliminar: null,
+    idCategoria:null
 }
 
 // types
@@ -15,7 +16,9 @@ const UPDATE_PRODUCTO_SUCCESS = 'UPDATE_PRODUCTO_SUCCESS'
 const UPDATE_CATEGORIA_PRODUCTO_SUCCESS = 'UPDATE_CATEGORIA_PRODUCTO_SUCCESS'
 const GET_CATEGORIA_PRODUCTO_SUCCESS = 'GET_CATEGORIA_PRODUCTO_SUCCESS'
 const GET_ID_ELIMINAR = 'GET_ID_ELIMINAR'
+const GET_ID_CATEGORIA = 'GET_ID_CATEGORIA'
 const ELIMINAR_PRODUCTO_SUCCESS = 'ELIMINAR_PRODUCTO_SUCCESS'
+const ELIMINAR_CATEGORIA_PRODUCTO_SUCCESS = 'ELIMINAR_CATEGORIA_PRODUCTO_SUCCESS'
 
 
 // reducer
@@ -23,20 +26,34 @@ export default function productoReducer(state = dataInicial, action){
     switch(action.type){
         case GET_PRODUCTO_SUCCESS:
             return {...state, productos: action.payload}
+
         case GET_CATEGORIA_PRODUCTO_SUCCESS:
             return {...state, categoriaProducto: action.payload}
+
         case INSERT_PRODUCTO_SUCCESS:
             return {...state, productos: action.payload}
+
         case INSERT_CATEGORIA_PRODUCTO_SUCCESS:
             return {...state, categoriaProducto: action.payload}
+
         case UPDATE_PRODUCTO_SUCCESS:
             return {...state, productos: action.payload}
+
         case UPDATE_CATEGORIA_PRODUCTO_SUCCESS:
             return {...state, categoriaProducto: action.payload}
+
         case GET_ID_ELIMINAR:
             return {...state, idEliminar: action.payload}
+
+        case GET_ID_CATEGORIA:
+            return {...state, idCategoria: action.payload}
+
         case ELIMINAR_PRODUCTO_SUCCESS:
             return {...state, productos: action.payload}
+
+        case ELIMINAR_CATEGORIA_PRODUCTO_SUCCESS:
+            return {...state, categoriaProducto: action.payload}
+
         default:
             return state
     }
@@ -100,6 +117,18 @@ export const getIdEliminar = (id) => async (dispatch) => {
     }
 }
 
+export const getIdCategoria = (id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: GET_ID_CATEGORIA,
+            payload: id
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 export const updateProductoAction = (data, id) => async (dispatch, getState) => {
     try {
         const res = await axios.put(`${url}/api/productos/${id}`, data);
@@ -129,6 +158,18 @@ export const eliminarProductoAction = (id) => async (dispatch, getState) => {
         const res = await axios.delete(`${url}/api/productos/${id}`)
         dispatch({
             type: ELIMINAR_PRODUCTO_SUCCESS,
+            payload: res.data
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const eliminarCategoriaProductoAction = (id) => async (dispatch, getState) => {
+    try {
+        const res = await axios.delete(`${url}/api/CategoriaProducto/${id}`)
+        dispatch({
+            type: ELIMINAR_CATEGORIA_PRODUCTO_SUCCESS,
             payload: res.data
         })
     } catch (error) {

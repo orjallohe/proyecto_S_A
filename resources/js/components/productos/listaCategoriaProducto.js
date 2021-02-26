@@ -6,8 +6,9 @@ import {
     Link,
     NavLink
   } from "react-router-dom";
-import {obtenerCategoriaProductoAction,updateCategoriaProductoAction} from '../../redux/productoDuck'
+import {obtenerCategoriaProductoAction,updateCategoriaProductoAction,getIdCategoria} from '../../redux/productoDuck'
 import CrearCategoriaProducto from './crearCategoriaProducto';
+import EliminarCategoriaProducto from './eliminarCategoriaProducto';
 
 const ListaCategoriaProductoStyled = styled.div`
     padding:25px;
@@ -103,7 +104,9 @@ export default function ListaCategoriaProducto() {
                                     activo
                                 })}
                                 >Editar</button></th>
-                                <th scope="row"><button className="btn btn-danger btn-sm">Eliminar</button></th>
+                                <th scope="row"><button className="btn btn-danger btn-sm" data-toggle="modal" data-target="#eliminarCategoriaProducto"
+                                onClick={() => dispatch(getIdCategoria(id))}
+                                >Eliminar</button></th>
 
                             </tr>
 
@@ -114,7 +117,8 @@ export default function ListaCategoriaProducto() {
 
                 </tbody>
             </table>
-
+        {/* ---------modal--------- */}
+        <EliminarCategoriaProducto />
         {/* ---------modal--------- */}
         <div class="modal fade" id="editarCategoriaProducto" tabIndex="-1" role="dialog" aria-labelledby="editarCategoriaProductoLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

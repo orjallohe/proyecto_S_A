@@ -74,6 +74,6 @@ class CategoriaProductoController extends Controller
     {
 
         $CategoriaProducto->delete();
-        return response()->json(null,204);
+        return response()->json(new CategoriaProductoCollection($this->categoria->get()));
     }
 }
