@@ -115,8 +115,7 @@ export default function ListaProducto() {
                                 <td>{marca}</td>
                                 <td>{categoria}</td>
                                 <td>{precio}</td>
-                                <th scope="row">{/* <Link to={`editarProducto/${id}`} ><button className="btn btn-info btn-sm" data-toggle="modal" data-target="#editarProducto"
-                                >Editar</button></Link> */}
+                                <th scope="row">
                                 <button className="btn btn-info btn-sm" data-toggle="modal" data-target="#editarProducto" onClick={ () => handleMostrarDatosInput({
                                     id:id,
                                     codigo,

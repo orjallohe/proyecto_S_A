@@ -76556,10 +76556,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _redux_productoDuck__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../redux/productoDuck */ "./resources/js/redux/productoDuck.js");
-/* harmony import */ var _crearCategoriaProducto__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./crearCategoriaProducto */ "./resources/js/components/productos/crearCategoriaProducto.js");
+/* harmony import */ var react_hook_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-hook-form */ "./node_modules/react-hook-form/dist/index.esm.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _redux_productoDuck__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../redux/productoDuck */ "./resources/js/redux/productoDuck.js");
+/* harmony import */ var _crearCategoriaProducto__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./crearCategoriaProducto */ "./resources/js/components/productos/crearCategoriaProducto.js");
 var _templateObject;
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -76569,18 +76588,53 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
+
 var ListaCategoriaProductoStyled = styled_components__WEBPACK_IMPORTED_MODULE_1__["default"].div(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    padding:25px;\n    h1{\n        color:#37546b;\n    }\n    .btn-success{\n        border-radius: 25px;\n        padding: .4rem 30px;\n        font-size: 1rem;\n    }\n    .btn-info{\n        color:white;\n    }\n\n\n"])));
 function ListaCategoriaProducto() {
+  var _errors$codigo, _React$createElement;
+
   var dispatch = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["useDispatch"])();
+
+  var _useForm = Object(react_hook_form__WEBPACK_IMPORTED_MODULE_3__["useForm"])(),
+      register = _useForm.register,
+      errors = _useForm.errors,
+      handleSubmit = _useForm.handleSubmit;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    id: '',
+    codigo: '',
+    nombre: '',
+    descripcion: '',
+    activo: '1'
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      dataForm = _useState2[0],
+      setDataForm = _useState2[1];
+
+  var handelChangeInput = function handelChangeInput(e) {
+    setDataForm(_objectSpread(_objectSpread({}, dataForm), {}, _defineProperty({}, e.target.name, e.target.value)));
+  };
+
+  var handleMostrarDatosInput = function handleMostrarDatosInput(registro) {
+    setDataForm(registro);
+  };
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
-    dispatch(Object(_redux_productoDuck__WEBPACK_IMPORTED_MODULE_4__["obtenerCategoriaProductoAction"])());
+    dispatch(Object(_redux_productoDuck__WEBPACK_IMPORTED_MODULE_5__["obtenerCategoriaProductoAction"])());
   }, []);
+
+  var onSubmit = function onSubmit(data, e) {
+    console.log(data);
+    dispatch(Object(_redux_productoDuck__WEBPACK_IMPORTED_MODULE_5__["updateCategoriaProductoAction"])(data, data.id));
+    e.target.reset();
+  };
+
   var categoriaProducto = Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["useSelector"])(function (store) {
     return store.productos.categoriaProducto;
   });
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(ListaCategoriaProductoStyled, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "d-flex justify-content-between mb-3"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Categorias"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_crearCategoriaProducto__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Categorias"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_crearCategoriaProducto__WEBPACK_IMPORTED_MODULE_6__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", {
     "class": "navbar navbar-light bg-light justify-content-between p-4"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
     "class": "navbar-brand"
@@ -76631,13 +76685,145 @@ function ListaCategoriaProducto() {
     }, activo), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
       scope: "row"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn btn-info btn-sm"
+      className: "btn btn-info btn-sm",
+      "data-toggle": "modal",
+      "data-target": "#editarCategoriaProducto",
+      onClick: function onClick() {
+        return handleMostrarDatosInput({
+          id: id,
+          codigo: codigo,
+          nombre: nombre,
+          descripcion: descripcion,
+          activo: activo
+        });
+      }
     }, "Editar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
       scope: "row"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-danger btn-sm"
     }, "Eliminar")));
-  }))));
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "modal fade",
+    id: "editarCategoriaProducto",
+    tabIndex: "-1",
+    role: "dialog",
+    "aria-labelledby": "editarCategoriaProductoLabel",
+    "aria-hidden": "true"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "modal-dialog",
+    role: "document"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "modal-content"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "modal-header"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
+    "class": "modal-title",
+    id: "editarCategoriaProductoLabel"
+  }, "Modal title"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    "class": "close",
+    "data-dismiss": "modal",
+    "aria-label": "Close"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    "aria-hidden": "true"
+  }, "\xD7"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "modal-body"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+    onSubmit: handleSubmit(onSubmit)
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "col"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Codigo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "number",
+    "class": "form-control",
+    name: "codigo",
+    placeholder: "Codigo",
+    onChange: handelChangeInput,
+    value: dataForm.codigo,
+    ref: register({
+      required: {
+        value: true,
+        message: 'Codigo es requerido'
+      }
+    })
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "text-danger text-small d-block mb-2"
+  }, errors === null || errors === void 0 ? void 0 : (_errors$codigo = errors.codigo) === null || _errors$codigo === void 0 ? void 0 : _errors$codigo.message)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "col"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    "class": "form-control",
+    name: "nombre",
+    placeholder: "Nombre",
+    onChange: handelChangeInput,
+    value: dataForm.nombre,
+    ref: register({
+      required: {
+        value: true,
+        message: 'nombre es requerido'
+      }
+    })
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "row mt-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "col"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Descripci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", (_React$createElement = {
+    name: "textarea",
+    rows: "4",
+    cols: "55"
+  }, _defineProperty(_React$createElement, "name", "descripcion"), _defineProperty(_React$createElement, "onChange", handelChangeInput), _defineProperty(_React$createElement, "value", dataForm.descripcion), _defineProperty(_React$createElement, "ref", register({
+    required: {
+      value: true,
+      message: 'textarea es requerido'
+    }
+  })), _React$createElement)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "row mt-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "form-group col-md-12"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "inputState"
+  }, "Activo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    id: "inputState",
+    "class": "form-control",
+    name: "activo",
+    onChange: handelChangeInput,
+    value: dataForm.activo,
+    ref: register({
+      required: {
+        value: true,
+        message: 'Activo es requerido'
+      }
+    })
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "1"
+  }, "si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "0"
+  }, "no")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "hidden",
+    "class": "form-control",
+    placeholder: "id",
+    name: "id",
+    onChange: handelChangeInput,
+    value: dataForm.id,
+    ref: register({
+      required: {
+        value: true,
+        message: 'precio es requerido'
+      }
+    })
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "submit",
+    "class": "btn btn-primary"
+  }, "Save changes"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    "class": "modal-footer"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    "class": "btn btn-secondary",
+    "data-dismiss": "modal"
+  }, "Close"))))));
 }
 
 /***/ }),
@@ -76991,7 +77177,7 @@ function ListaProducto() {
 /*!********************************************!*\
   !*** ./resources/js/redux/productoDuck.js ***!
   \********************************************/
-/*! exports provided: default, obtenerProductoAction, obtenerCategoriaProductoAction, insertarProductoAction, insertarCategoriaProductoAction, getIdEliminar, updateProductoAction, eliminarProductoAction */
+/*! exports provided: default, obtenerProductoAction, obtenerCategoriaProductoAction, insertarProductoAction, insertarCategoriaProductoAction, getIdEliminar, updateProductoAction, updateCategoriaProductoAction, eliminarProductoAction */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -77003,6 +77189,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "insertarCategoriaProductoAction", function() { return insertarCategoriaProductoAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getIdEliminar", function() { return getIdEliminar; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateProductoAction", function() { return updateProductoAction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateCategoriaProductoAction", function() { return updateCategoriaProductoAction; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "eliminarProductoAction", function() { return eliminarProductoAction; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
@@ -77034,6 +77221,7 @@ var GET_PRODUCTO_SUCCESS = 'GET_PRODUCTO_SUCCESS';
 var INSERT_PRODUCTO_SUCCESS = 'INSERT_PRODUCTO_SUCCESS';
 var INSERT_CATEGORIA_PRODUCTO_SUCCESS = 'INSERT_CATEGORIA_PRODUCTO_SUCCESS';
 var UPDATE_PRODUCTO_SUCCESS = 'UPDATE_PRODUCTO_SUCCESS';
+var UPDATE_CATEGORIA_PRODUCTO_SUCCESS = 'UPDATE_CATEGORIA_PRODUCTO_SUCCESS';
 var GET_CATEGORIA_PRODUCTO_SUCCESS = 'GET_CATEGORIA_PRODUCTO_SUCCESS';
 var GET_ID_ELIMINAR = 'GET_ID_ELIMINAR';
 var ELIMINAR_PRODUCTO_SUCCESS = 'ELIMINAR_PRODUCTO_SUCCESS'; // reducer
@@ -77066,6 +77254,11 @@ function productoReducer() {
     case UPDATE_PRODUCTO_SUCCESS:
       return _objectSpread(_objectSpread({}, state), {}, {
         productos: action.payload
+      });
+
+    case UPDATE_CATEGORIA_PRODUCTO_SUCCESS:
+      return _objectSpread(_objectSpread({}, state), {}, {
+        categoriaProducto: action.payload
       });
 
     case GET_ID_ELIMINAR:
@@ -77307,7 +77500,7 @@ var updateProductoAction = function updateProductoAction(data, id) {
     };
   }();
 };
-var eliminarProductoAction = function eliminarProductoAction(id) {
+var updateCategoriaProductoAction = function updateCategoriaProductoAction(data, id) {
   return /*#__PURE__*/function () {
     var _ref7 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(dispatch, getState) {
       var res;
@@ -77317,12 +77510,12 @@ var eliminarProductoAction = function eliminarProductoAction(id) {
             case 0:
               _context7.prev = 0;
               _context7.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("".concat(_url__WEBPACK_IMPORTED_MODULE_2__["default"], "/api/productos/").concat(id));
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a.put("".concat(_url__WEBPACK_IMPORTED_MODULE_2__["default"], "/api/CategoriaProducto/").concat(id), data);
 
             case 3:
               res = _context7.sent;
               dispatch({
-                type: ELIMINAR_PRODUCTO_SUCCESS,
+                type: UPDATE_CATEGORIA_PRODUCTO_SUCCESS,
                 payload: res.data
               });
               _context7.next = 10;
@@ -77343,6 +77536,45 @@ var eliminarProductoAction = function eliminarProductoAction(id) {
 
     return function (_x12, _x13) {
       return _ref7.apply(this, arguments);
+    };
+  }();
+};
+var eliminarProductoAction = function eliminarProductoAction(id) {
+  return /*#__PURE__*/function () {
+    var _ref8 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8(dispatch, getState) {
+      var res;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              _context8.prev = 0;
+              _context8.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("".concat(_url__WEBPACK_IMPORTED_MODULE_2__["default"], "/api/productos/").concat(id));
+
+            case 3:
+              res = _context8.sent;
+              dispatch({
+                type: ELIMINAR_PRODUCTO_SUCCESS,
+                payload: res.data
+              });
+              _context8.next = 10;
+              break;
+
+            case 7:
+              _context8.prev = 7;
+              _context8.t0 = _context8["catch"](0);
+              console.log(_context8.t0);
+
+            case 10:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, _callee8, null, [[0, 7]]);
+    }));
+
+    return function (_x14, _x15) {
+      return _ref8.apply(this, arguments);
     };
   }();
 };

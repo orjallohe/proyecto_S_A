@@ -60,6 +60,7 @@ class CategoriaProductoController extends Controller
     public function update(Request $request, CategoriaProducto $CategoriaProducto)
     {
         $CategoriaProducto->update($request->all());
+        return response()->json(new CategoriaProductoCollection($this->categoria->get()));
 
     }
 
