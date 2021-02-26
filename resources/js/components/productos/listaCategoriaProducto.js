@@ -6,6 +6,7 @@ import {
     NavLink
   } from "react-router-dom";
 import {obtenerCategoriaProductoAction} from '../../redux/productoDuck'
+import CrearCategoriaProducto from './crearCategoriaProducto';
 
 const ListaCategoriaProductoStyled = styled.div`
     padding:25px;
@@ -36,7 +37,7 @@ export default function ListaCategoriaProducto() {
         <ListaCategoriaProductoStyled>
             <div className="d-flex justify-content-between mb-3">
                 <h1>Categorias</h1>
-                <Link to="/" ><button className="btn btn-success">Nueva Categoria</button></Link>
+                <CrearCategoriaProducto />
             </div>
             <nav class="navbar navbar-light bg-light justify-content-between p-4">
                 <a class="navbar-brand"></a>
@@ -63,7 +64,7 @@ export default function ListaCategoriaProducto() {
 
                     {categoriaProducto.map(({nombre, id, codigo, descripcion,activo}) =>{
                         return (
-                            <tr>
+                            <tr key={id}>
                                 <th scope="row">{id}</th>
                                 <th scope="row">{codigo}</th>
                                 <th scope="row">{nombre}</th>

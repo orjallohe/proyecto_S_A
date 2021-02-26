@@ -64,7 +64,7 @@ class ProductoController extends Controller
     public function update(ProductoRequests $request, Producto $producto)
     {
         $producto->update($request->all());
-        return response()->json(new ProductoResources($producto));
+        return response()->json(new ProductoCollection($this->producto->get()));
     }
 
     /**
@@ -76,7 +76,7 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
         $producto->delete();
-        return response()->json(null,204);
+        return response()->json(new ProductoCollection($this->producto->get()));
 
     }
 }

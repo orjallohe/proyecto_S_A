@@ -1,14 +1,17 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState, useRef} from 'react'
 import styled from 'styled-components'
 import {useDispatch, useSelector} from 'react-redux'
+import { useForm } from 'react-hook-form'
+import url from '../../url'
+import axios from 'axios';
 import {
     Link,
     NavLink
   } from "react-router-dom";
 // importamos la acción
-import {obtenerProductoAction} from '../../redux/productoDuck'
+import {obtenerProductoAction, updateProductoAction, getIdEliminar} from '../../redux/productoDuck'
 import CrearProducto from './crearProducto';
-
+import EliminarProducto from './eliminarProducto'
 
 
 const ListaProductoStyled = styled.div`
@@ -27,13 +30,51 @@ const ListaProductoStyled = styled.div`
 
 `
 export default function ListaProducto() {
+    const {register, errors, handleSubmit} = useForm();
     const dispatch = useDispatch()
+    const [categoria, useCategoria] = useState([])
+    const unmounted = useRef(false);
+    const [dataForm,setDataForm] = useState({
+        id: '',
+        codigo: '',
+        nombre: '',
+        descripcion:'',
+        marca:'',
+        categoria:'',
+        precio:''
+
+    });
 
     const productos = useSelector(store => store.productos.productos)
+
     useEffect(() => {
         dispatch(obtenerProductoAction())
 
     }, [])
+
+    const handelChangeInput = (e) =>{
+        setDataForm({
+            ...dataForm,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleMostrarDatosInput = (registro) =>{
+        setDataForm(registro)
+    }
+
+    const onSubmit = (data, e) => {
+        console.log(data)
+        dispatch(updateProductoAction(data, data.id));
+        e.target.reset();
+    }
+
+    useEffect(() => {
+        axios.get(`${url}/api/CategoriaProducto/`)
+       .then(res => useCategoria(res.data))
+       return () => { unmounted.current = true }
+    }, [])
+
     return (
         <ListaProductoStyled>
             <div className="d-flex justify-content-between mb-3">
@@ -74,9 +115,22 @@ export default function ListaProducto() {
                                 <td>{marca}</td>
                                 <td>{categoria}</td>
                                 <td>{precio}</td>
-                                <th scope="row"><Link to={`editarProducto/${id}`} ><button className="btn btn-info btn-sm"
-                                >Editar</button></Link></th>
-                                <th scope="row"><button className="btn btn-danger btn-sm">Eliminar</button></th>
+                                <th scope="row">{/* <Link to={`editarProducto/${id}`} ><button className="btn btn-info btn-sm" data-toggle="modal" data-target="#editarProducto"
+                                >Editar</button></Link> */}
+                                <button className="btn btn-info btn-sm" data-toggle="modal" data-target="#editarProducto" onClick={ () => handleMostrarDatosInput({
+                                    id:id,
+                                    codigo,
+                                    nombre,
+                                    descripcion,
+                                    categoria,
+                                    marca,
+                                    precio
+                                })}
+                                >Editar</button>
+                                </th>
+                                <th scope="row"><button className="btn btn-danger btn-sm"  data-toggle="modal" data-target="#exampleModal"
+                                onClick={() => dispatch(getIdEliminar(id))}
+                                >Eliminar</button></th>
 
                             </tr>
 
@@ -88,7 +142,140 @@ export default function ListaProducto() {
                 </tbody>
                 </table>
 
+                {/* ---------modal--------- */}
+                <EliminarProducto />
 
+                {/* ---------modal--------- */}
+                <div class="modal fade" id="editarProducto" tabIndex="-1" role="dialog" aria-labelledby="editarProductoLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarProductoLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    <form onSubmit={handleSubmit(onSubmit)}>
+
+                        <div class="row">
+                            <div class="col">
+                                <label>Codigo</label>
+                                <input type="number" class="form-control" name="codigo" placeholder="Codigo"
+                                onChange={handelChangeInput}
+                                value={dataForm.codigo}
+                                ref={register({
+                                    required: {
+                                        value: true,
+                                        message: 'Codigo es requerido'
+                                    }
+                                })}
+                                />
+                                <span className="text-danger text-small d-block mb-2">
+                                    {errors?.codigo?.message}
+                                </span>
+                            </div>
+                            <div class="col">
+                                <label>Nombre</label>
+                                <input type="text" class="form-control" name="nombre" placeholder="Nombre"
+                                onChange={handelChangeInput}
+                                value={dataForm.nombre}
+                                ref={register({
+                                    required: {
+                                        value: true,
+                                        message: 'nombre es requerido'
+                                    }
+                                })}
+                                />
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col">
+                            <label>Descripción</label>
+                            <textarea name="textarea" rows="4" cols="55" name="descripcion"
+                            onChange={handelChangeInput}
+                            value={dataForm.descripcion}
+                            ref={register({
+                                required: {
+                                    value: true,
+                                    message: 'textarea es requerido'
+                                }
+                             })}
+                            ></textarea>
+                            </div>
+
+                        </div>
+                         <div class="row mt-2">
+                            <div class="form-group col-md-12">
+                                <label htmlFor="inputState">Categoria</label>
+                                <select id="inputState" class="form-control" name="categoria_productos_id"
+                                ref={register({
+                                    required: {
+                                        value: true,
+                                        message: 'categoria es requerido'
+                                    }
+                                 })}
+                                >
+                                    {categoria.map(data =>{
+
+                                      return <option key={data.id} value={data.id}>{data.nombre}</option>
+                                    })}
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                            <label>Marca</label>
+                            <input type="text" class="form-control" name="marca" placeholder="Marca"
+                            onChange={handelChangeInput}
+                            value={dataForm.marca}
+                            ref={register({
+                                required: {
+                                    value: true,
+                                    message: 'Marca es requerido'
+                                }
+                             })}
+                            />
+                            </div>
+                            <div class="col">
+                            <label>Precio</label>
+                            <input type="number" class="form-control" placeholder="precio" name="precio"
+                            onChange={handelChangeInput}
+                            value={dataForm.precio}
+                            ref={register({
+                                required: {
+                                    value: true,
+                                    message: 'precio es requerido'
+                                }
+                             })}
+                            />
+
+
+                            <input type="hidden" class="form-control" placeholder="id" name="id"
+                            onChange={handelChangeInput}
+                            value={dataForm.id}
+                            ref={register({
+                                required: {
+                                    value: true,
+                                    message: 'precio es requerido'
+                                }
+                             })}
+                            />
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+
+
+                    </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
         </ListaProductoStyled>
     )
 }

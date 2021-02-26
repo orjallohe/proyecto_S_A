@@ -34,7 +34,7 @@ class CategoriaProductoController extends Controller
     public function store(Request $request)
     {
         $CategoriaProducto = $this->categoria->create($request->all());
-        return response()->json(new CategoriaProductoResources($CategoriaProducto),201);
+        return response()->json(new CategoriaProductoCollection($this->categoria->get()));
         //
     }
 
@@ -60,7 +60,7 @@ class CategoriaProductoController extends Controller
     public function update(Request $request, CategoriaProducto $CategoriaProducto)
     {
         $CategoriaProducto->update($request->all());
-        return response()->json(new CategoriaProductoResources($CategoriaProducto));
+
     }
 
     /**
